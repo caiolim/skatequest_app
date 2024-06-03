@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "558585058498",
+    "project_id": "skatequest-app",
+    "storage_bucket": "skatequest-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558585058498:android:cfc5be73cfa4274e86975b",
+        "android_client_info": {
+          "package_name": "com.example.skatequest_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnW28vGEoxPUBRJNlzvP8m4kMTJGdaohA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
