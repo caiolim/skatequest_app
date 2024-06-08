@@ -1,5 +1,5 @@
-import 'package:skatequest_app/models/achievements_model.dart';
-import 'package:skatequest_app/models/trick_model.dart';
+import './trick_model.dart';
+import './achievements_model.dart';
 
 class Perfil {
   final String id;
@@ -7,8 +7,8 @@ class Perfil {
   final String username;
   final String description;
   final int skateDays;
-  final List<AchievementsModel> achievements;
   final List<TrickModel> tricks;
+  final List<AchievementModel> achievements;
 
   Perfil({
     required this.id,
@@ -16,7 +16,7 @@ class Perfil {
     required this.username,
     this.description = '',
     this.skateDays = 0,
-    this.achievements = const <AchievementsModel>[],
     this.tricks = const <TrickModel>[],
+    this.achievements = const <AchievementModel>[],
   });
 }

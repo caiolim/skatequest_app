@@ -1,13 +1,13 @@
-class AchievementsModel {
+class AchievementModel {
   final String id;
   final String name;
-  final String idUser;
+  final String category;
   final bool hasDone;
 
-  AchievementsModel({
+  AchievementModel({
     required this.id,
     required this.name,
-    required this.idUser,
+    required this.category,
     this.hasDone = false,
   });
 }

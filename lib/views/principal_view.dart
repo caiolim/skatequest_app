@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import './home_view.dart';
 import './tricks_view.dart';
+import './achievements_view.dart';
 
 class PrincipalView extends StatefulWidget {
   const PrincipalView({super.key});
@@ -22,9 +23,7 @@ class _PrincipalViewState extends State<PrincipalView> {
       body: <Widget>[
         HomeView(),
         TricksView(),
-        Center(
-          child: Text('conquistas'),
-        ),
+        AchievementsView(),
       ][currentPageIndex],
     );
   }
