@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 
 import './home_view.dart';
+import './tricks_view.dart';
 
 class PrincipalView extends StatefulWidget {
   const PrincipalView({super.key});
@@ -20,9 +21,7 @@ class _PrincipalViewState extends State<PrincipalView> {
       bottomNavigationBar: _bottomNavigatorBar(),
       body: <Widget>[
         HomeView(),
-        Center(
-          child: Text('minhas tricks'),
-        ),
+        TricksView(),
         Center(
           child: Text('conquistas'),
         ),
