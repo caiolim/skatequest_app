@@ -105,6 +105,11 @@ class _TricksViewState extends State<TricksView> {
           child: Column(
             children: [
               ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8.0),
+                  ),
+                ),
                 onTap: () => isOpenNotify.value = !isOpen,
                 leading: ValueListenableBuilder<bool>(
                   valueListenable: isFavoriteNotify,
