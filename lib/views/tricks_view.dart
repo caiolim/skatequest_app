@@ -88,7 +88,7 @@ class _TricksViewState extends State<TricksView> {
 
   Widget _cardTrick({required TrickModel trick}) {
     final hasSteps = trick.steps.isNotEmpty;
-    final isOpenNotify = ValueNotifier<bool>(false);
+    final isOpenNotify = ValueNotifier<bool>(true);
     final isFavoriteNotify = ValueNotifier<bool>(false);
 
     return ValueListenableBuilder<bool>(
