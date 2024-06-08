@@ -25,9 +25,6 @@ class _PrincipalViewState extends State<PrincipalView> {
         Center(
           child: Text('conquistas'),
         ),
-        Center(
-          child: Text('perfil'),
-        ),
       ][currentPageIndex],
     );
   }
@@ -50,10 +47,6 @@ class _PrincipalViewState extends State<PrincipalView> {
         NavigationDestination(
           icon: Badge(child: Icon(Icons.star)),
           label: 'Conquistas',
-        ),
-        NavigationDestination(
-          icon: Icon(Icons.person),
-          label: 'Perfil',
         ),
       ],
     );
