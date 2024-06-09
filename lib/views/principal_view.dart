@@ -18,13 +18,15 @@ class _PrincipalViewState extends State<PrincipalView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: _bottomNavigatorBar(),
-      body: <Widget>[
-        HomeView(),
-        TricksView(),
-        AchievementsView(),
-      ][currentPageIndex],
+    return SafeArea(
+      child: Scaffold(
+        bottomNavigationBar: _bottomNavigatorBar(),
+        body: <Widget>[
+          HomeView(),
+          TricksView(),
+          AchievementsView(),
+        ][currentPageIndex],
+      ),
     );
   }
 
