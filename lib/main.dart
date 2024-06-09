@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 
+import './firebase_options.dart';
 import './views/home_view.dart';
 import './views/principal_view.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(const MainApp());
 }
 
@@ -14,7 +19,10 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      darkTheme: ThemeData.dark(useMaterial3: true),
+      themeMode: ThemeMode.dark,
+      darkTheme: ThemeData.dark(
+        useMaterial3: true,
+      ),
       color: Colors.red[900],
       theme: ThemeData(
         useMaterial3: true,
