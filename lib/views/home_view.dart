@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../controllers/home_controller.dart';
@@ -40,13 +41,31 @@ class _HomeViewState extends State<HomeView> {
               children: [
                 _titleSession('Rolês na semana'),
                 SizedBox(height: 16.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    _sessionsOnWeek(),
-                    _allDaysSkating(),
-                    _buttonAddDaySkate(),
-                  ],
+                StreamBuilder<QuerySnapshot>(
+                  stream: _controller.listSkateDays().snapshots(),
+                  builder: (context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                        return Center(
+                          child: Text('Falha na conexão.'),
+                        );
+                      case ConnectionState.waiting:
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      default:
+                        final dados = snapshot.requireData;
+
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            _buttonAddDaySkate(),
+                            _allDaysSkating(daysSkate: dados.docs.length),
+                            _sessionsOnWeek(),
+                          ],
+                        );
+                    }
+                  },
                 ),
                 SizedBox(height: 24.0),
                 _titleSession('Tricks favoritas'),
@@ -70,69 +89,102 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _buttonAddDaySkate() {
-    return Column(
-      children: [
-        RawMaterialButton(
-          onPressed: _controller.skateToday
-              ? null
-              : () => setState(
-                    () => _controller.confirmSkateToday(),
+    return StreamBuilder<QuerySnapshot>(
+      stream: _controller.hasSkateToday(context).snapshots(),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+            return Center(
+              child: Text('Falha na conexão.'),
+            );
+          case ConnectionState.waiting:
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          default:
+            final data = snapshot.requireData;
+            return Column(
+              children: [
+                RawMaterialButton(
+                  onPressed: data.docs.isNotEmpty
+                      ? null
+                      : () => _controller.addDaySkate(context: context),
+                  elevation: 2.0,
+                  fillColor: data.docs.isNotEmpty
+                      ? Colors.transparent
+                      : Color.fromARGB(16, 0, 0, 0),
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.skateboarding,
+                        size: 24.0,
+                      ),
+                      SizedBox(height: 8.0),
+                      Text(
+                        '+ um dia \nno rolê',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 10.0,
+                        ),
+                      )
+                    ],
                   ),
-          elevation: 2.0,
-          fillColor: _controller.skateToday
-              ? Colors.transparent
-              : Color.fromARGB(16, 0, 0, 0),
-          child: Column(
-            children: [
-              Icon(
-                Icons.skateboarding,
-                size: 24.0,
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                '+ um dia \nno rolê',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 10.0,
+                  padding: EdgeInsets.all(24.0),
+                  shape: CircleBorder(),
                 ),
-              )
-            ],
-          ),
-          padding: EdgeInsets.all(24.0),
-          shape: CircleBorder(),
-        ),
-      ],
+              ],
+            );
+        }
+      },
     );
   }
 
   Widget _sessionsOnWeek() {
-    return Container(
-      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-      child: Column(
-        children: [
-          Text(
-            '${_controller.skateDaysOnWeek}/7',
-            style: TextStyle(
-              fontSize: 32.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(height: 8.0),
-          Text(
-            'rolês essa \nsemana',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 10.0),
-          ),
-        ],
-      ),
+    return StreamBuilder<QuerySnapshot>(
+      stream: _controller.listSkateDaysOnWeek().snapshots(),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+            return Center(
+              child: Text('Falha na conexão.'),
+            );
+          case ConnectionState.waiting:
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          default:
+            final data = snapshot.requireData;
+
+            return Container(
+              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+              child: Column(
+                children: [
+                  Text(
+                    '${data.docs.length}/7',
+                    style: TextStyle(
+                      fontSize: 32.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8.0),
+                  Text(
+                    'rolês essa \nsemana',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 10.0),
+                  ),
+                ],
+              ),
+            );
+        }
+      },
     );
   }
 
-  Widget _allDaysSkating() {
+  Widget _allDaysSkating({int daysSkate = 0}) {
     return Column(
       children: [
         Text(
-          '${_controller.daysSkate}',
+          '$daysSkate',
           style: TextStyle(
             fontSize: 36.0,
             fontWeight: FontWeight.bold,
@@ -151,27 +203,55 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _favoriteTricks() {
-    return Container(
-      height: 240.0,
-      padding: const EdgeInsets.all(8.0),
-      child: ListView.builder(
-        itemCount: 8,
-        itemBuilder: (context, index) => Card(
-          child: ListTile(
-            contentPadding: const EdgeInsets.all(8.0),
-            minLeadingWidth: 60.0,
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Icon(Icons.auto_graph),
-            ),
-            title: Text('Nollie'),
-            trailing: Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: Text('80%'),
-            ),
-          ),
-        ),
-      ),
+    return StreamBuilder<QuerySnapshot>(
+      stream: _controller.favoriteTricks().snapshots(),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+            return Center(
+              child: Text('Falha na conexão.'),
+            );
+          case ConnectionState.waiting:
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          default:
+            final data = snapshot.requireData;
+
+            return data.docs.isNotEmpty
+                ? Container(
+                    height: 240.0,
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.builder(
+                      itemCount: data.docs.length,
+                      itemBuilder: (context, index) {
+                        dynamic item = data.docs[index].data();
+
+                        return Card(
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.all(8.0),
+                            minLeadingWidth: 60.0,
+                            leading: Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Icon(Icons.auto_graph),
+                            ),
+                            title: Text(
+                              item['name'],
+                            ),
+                            trailing: Padding(
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: Icon(
+                                Icons.keyboard_arrow_right_rounded,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                : SizedBox();
+        }
+      },
     );
   }
 }
