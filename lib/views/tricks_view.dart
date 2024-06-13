@@ -233,7 +233,7 @@ class _TricksViewState extends State<TricksView> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         InkWell(
-                          onTap: () => showModalBottomSheet(
+                          onTap: () => showDialog(
                             context: context,
                             builder: (context) =>
                                 _showDialogAddStepBottomSheet(trick),
@@ -300,75 +300,77 @@ class _TricksViewState extends State<TricksView> {
     final txtNameStepTrick = TextEditingController();
     final formKey = GlobalKey<FormState>();
 
-    return Container(
-      height: 340.0,
-      padding: const EdgeInsets.all(16.0),
-      child: Form(
-        key: formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    trick.name,
-                    style: TextStyle(
-                      fontSize: 24.0,
+    return AlertDialog(
+      content: Container(
+        height: 340.0,
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      trick.name,
+                      style: TextStyle(
+                        fontSize: 24.0,
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: Icon(Icons.close),
-                    color: Colors.grey,
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 16.0),
-            Text(
-              'Nova etapa',
-              style: TextStyle(
-                fontSize: 16.0,
-                color: Colors.white,
-              ),
-            ),
-            SizedBox(height: 8.0),
-            Text(
-              'Informe a nova etapa a ser vencida para aprimorar sua trick',
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 12.0,
-              ),
-            ),
-            SizedBox(height: 24.0),
-            TextFormFieldWidget(
-              controller: txtNameStepTrick,
-              maxLength: 30,
-              label: 'Nova etapa',
-              hintText: 'fs ollie',
-              validator: (value) =>
-                  tricksController.validateNameTrickStep(name: value),
-            ),
-            Spacer(),
-            ButtonWidget(
-              color: Colors.red[700]!,
-              textColor: Colors.white,
-              onPressed: () => tricksController.addTrickStep(
-                formKey: formKey,
-                context: context,
-                trickStep: TrickStepModel(
-                  uid: '',
-                  name: txtNameStepTrick.text,
-                  idTrick: trick.uid,
+                    IconButton(
+                      onPressed: () => Navigator.pop(context),
+                      icon: Icon(Icons.close),
+                      color: Colors.grey,
+                    ),
+                  ],
                 ),
               ),
-              text: 'Nova etapa',
-            ),
-            SizedBox(height: 16.0),
-          ],
+              SizedBox(height: 16.0),
+              Text(
+                'Nova etapa',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(height: 8.0),
+              Text(
+                'Informe a nova etapa a ser vencida para aprimorar sua trick',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 12.0,
+                ),
+              ),
+              SizedBox(height: 24.0),
+              TextFormFieldWidget(
+                controller: txtNameStepTrick,
+                maxLength: 30,
+                label: 'Nova etapa',
+                hintText: 'fs ollie',
+                validator: (value) =>
+                    tricksController.validateNameTrickStep(name: value),
+              ),
+              Spacer(),
+              ButtonWidget(
+                color: Colors.red[700]!,
+                textColor: Colors.white,
+                onPressed: () => tricksController.addTrickStep(
+                  formKey: formKey,
+                  context: context,
+                  trickStep: TrickStepModel(
+                    uid: '',
+                    name: txtNameStepTrick.text,
+                    idTrick: trick.uid,
+                  ),
+                ),
+                text: 'Nova etapa',
+              ),
+              SizedBox(height: 16.0),
+            ],
+          ),
         ),
       ),
     );

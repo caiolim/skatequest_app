@@ -68,7 +68,7 @@ class _LoginViewState extends State<LoginView> {
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {
-                    showModalBottomSheet(
+                    showDialog(
                       context: context,
                       builder: (ctx) => _modalRecoveryPassword(),
                     );
@@ -107,52 +107,54 @@ class _LoginViewState extends State<LoginView> {
   Widget _modalRecoveryPassword() {
     txtEmailRecoveryPassword.text = '';
 
-    return Container(
-      width: double.infinity,
-      height: 380.0,
-      padding: EdgeInsets.all(32.0),
-      child: Form(
-        key: formKeyRecoveryPassword,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Esqueci minha senha',
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey,
+    return AlertDialog(
+      content: Container(
+        width: double.infinity,
+        height: 340.0,
+        padding: EdgeInsets.all(32.0),
+        child: Form(
+          key: formKeyRecoveryPassword,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Esqueci minha senha',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                ),
               ),
-            ),
-            SizedBox(height: 32.0),
-            TextFormFieldWidget(
-              label: 'e-mail',
-              controller: txtEmailRecoveryPassword,
-              validator: (value) => _controller.validateEmail(value),
-            ),
-            SizedBox(height: 16.0),
-            Text(
-              'Dolores quia placeat repellat quo magnam ab aut eveniet. Animi ut omnis et optio. Autem est ad dignissimos ipsum. Dignissimos id quae minima ut.',
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 11.0,
+              SizedBox(height: 32.0),
+              TextFormFieldWidget(
+                label: 'e-mail',
+                controller: txtEmailRecoveryPassword,
+                validator: (value) => _controller.validateEmail(value),
               ),
-            ),
-            Spacer(),
-            ButtonWidget(
-              text: 'Recuperar senha',
-              color: Colors.red[700]!,
-              textColor: Colors.white,
-              onPressed: () {
-                if (formKeyRecoveryPassword.currentState!.validate()) {
-                  _controller.esqueceuSenha(
-                    context,
-                    txtEmailRecoveryPassword.text,
-                  );
-                }
-              },
-            ),
-          ],
+              SizedBox(height: 16.0),
+              Text(
+                'Dolores quia placeat repellat quo magnam ab aut eveniet. Animi ut omnis et optio. Autem est ad dignissimos ipsum. Dignissimos id quae minima ut.',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 11.0,
+                ),
+              ),
+              Spacer(),
+              ButtonWidget(
+                text: 'Recuperar senha',
+                color: Colors.red[700]!,
+                textColor: Colors.white,
+                onPressed: () {
+                  if (formKeyRecoveryPassword.currentState!.validate()) {
+                    _controller.esqueceuSenha(
+                      context,
+                      txtEmailRecoveryPassword.text,
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
