@@ -6,12 +6,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../views/util.dart';
 import '../models/trick_model.dart';
 import '../models/trick_step_model.dart';
+import '../controllers/login_controller.dart';
 
 class TricksController {
   listarTricks() {
     return FirebaseFirestore.instance.collection('tricks').where(
           'idUser',
-          isEqualTo: '1',
+          isEqualTo: LoginController().idUsuario(),
         );
   }
 
@@ -24,9 +25,12 @@ class TricksController {
 
   void addTrick({
     required BuildContext context,
-    required TrickModel trick,
+    required String name,
     required GlobalKey<FormState> formKey,
   }) async {
+    final trick =
+        TrickModel(uid: '', name: name, idUser: LoginController().idUsuario());
+
     if (formKey.currentState!.validate()) {
       FirebaseFirestore.instance
           .collection('tricks')

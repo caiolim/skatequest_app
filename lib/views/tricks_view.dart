@@ -446,7 +446,7 @@ class _TricksViewState extends State<TricksView> {
           onPressed: () => tricksController.addTrick(
             formKey: formKey,
             context: context,
-            trick: TrickModel(uid: '', name: txtNameTrick.text, idUser: '1'),
+            name: txtNameTrick.text,
           ),
           child: SizedBox(
             width: 100.0,
