@@ -102,15 +102,38 @@ class _HomeViewState extends State<HomeView> {
               child: CircularProgressIndicator(),
             );
           default:
+            var hasSkateToday = false;
+
             final data = snapshot.requireData;
+
+            if (data.docs.isNotEmpty) {
+              var lastDaySkate = data.docs.first['date'].toDate();
+
+              lastDaySkate = DateTime(
+                lastDaySkate.year,
+                lastDaySkate.month,
+                lastDaySkate.day,
+              );
+
+              var now = DateTime(
+                DateTime.now().year,
+                DateTime.now().month,
+                DateTime.now().day,
+              );
+
+              if (now.isAtSameMomentAs(lastDaySkate)) {
+                hasSkateToday = true;
+              }
+            }
+
             return Column(
               children: [
                 RawMaterialButton(
-                  onPressed: data.docs.isNotEmpty
+                  onPressed: hasSkateToday
                       ? null
                       : () => _controller.addDaySkate(context: context),
                   elevation: 2.0,
-                  fillColor: data.docs.isNotEmpty
+                  fillColor: hasSkateToday
                       ? Colors.transparent
                       : Color.fromARGB(16, 0, 0, 0),
                   child: Column(

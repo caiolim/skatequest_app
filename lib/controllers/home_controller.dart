@@ -3,14 +3,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../models/skate_day_model.dart';
 import '../views/util.dart';
+import '../models/skate_day_model.dart';
+import '../controllers/login_controller.dart';
 
 class HomeController {
   listSkateDays() {
     return FirebaseFirestore.instance
         .collection('skateDays')
-        .where('idUser', isEqualTo: '1');
+        .where('idUser', isEqualTo: LoginController().idUsuario());
   }
 
   listSkateDaysOnWeek() {
@@ -25,13 +26,17 @@ class HomeController {
             today.day - 7,
           ),
         )
+        .where(
+          'idUser',
+          isEqualTo: LoginController().idUsuario(),
+        )
         .limit(7);
   }
 
   favoriteTricks() {
     return FirebaseFirestore.instance
         .collection('tricks')
-        .where('idUser', isEqualTo: '1')
+        .where('idUser', isEqualTo: LoginController().idUsuario())
         .where('isFavorite', isEqualTo: true);
   }
 
@@ -39,7 +44,7 @@ class HomeController {
     try {
       return FirebaseFirestore.instance
           .collection('skateDays')
-          .where('idUser', isEqualTo: '1')
+          .where('idUser', isEqualTo: LoginController().idUsuario())
           .orderBy('date', descending: true)
           .limit(1);
     } catch (e) {
@@ -53,7 +58,7 @@ class HomeController {
         .add(
           SkateDayModel(
             uid: '',
-            idUser: '1',
+            idUser: LoginController().idUsuario(),
             date: DateTime.now(),
           ).toJson(),
         )
