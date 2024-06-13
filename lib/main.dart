@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import './firebase_options.dart';
-import './views/home_view.dart';
+import './views/login_view.dart';
+import './views/register_view.dart';
 import './views/principal_view.dart';
 
 Future<void> main() async {
@@ -31,18 +32,21 @@ class MainApp extends StatelessWidget {
         ),
       ),
       title: 'skatequest app',
-      initialRoute: '/',
+      initialRoute: '/login',
       onGenerateRoute: (settings) {
         switch (settings.name) {
-          case '/':
+          case '/principal':
             return MaterialPageRoute(
               builder: (context) => const PrincipalView(),
             );
-          case '/home':
+          case '/login':
             return MaterialPageRoute(
-              builder: (context) => const HomeView(),
+              builder: (context) => const LoginView(),
             );
-
+          case '/register':
+            return MaterialPageRoute(
+              builder: (context) => const RegisterView(),
+            );
           default:
             return null;
         }
