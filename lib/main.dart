@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import './firebase_options.dart';
 import './views/login_view.dart';
 import './views/register_view.dart';
+import './views/about_view.dart';
 import './views/principal_view.dart';
 
 Future<void> main() async {
@@ -46,6 +47,10 @@ class MainApp extends StatelessWidget {
           case '/register':
             return MaterialPageRoute(
               builder: (context) => const RegisterView(),
+            );
+          case '/about':
+            return MaterialPageRoute(
+              builder: (context) => const AboutView(),
             );
           default:
             return null;
