@@ -1,1 +1,39 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"skatequest-app","appId":"1:558585058498:android:cfc5be73cfa4274e86975b","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"skatequest-app","configurations":{"android":"1:558585058498:android:cfc5be73cfa4274e86975b","ios":"1:558585058498:ios:49f370b431df469186975b","macos":"1:558585058498:ios:49f370b431df469186975b","web":"1:558585058498:web:4217bccb8ba60e0486975b","windows":"1:558585058498:web:ad672b0505a8861986975b"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "skatequest-app",
+          "appId": "1:558585058498:android:cfc5be73cfa4274e86975b",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "skatequest-app",
+          "configurations": {
+            "android": "1:558585058498:android:cfc5be73cfa4274e86975b",
+            "ios": "1:558585058498:ios:49f370b431df469186975b",
+            "macos": "1:558585058498:ios:49f370b431df469186975b",
+            "web": "1:558585058498:web:4217bccb8ba60e0486975b",
+            "windows": "1:558585058498:web:ad672b0505a8861986975b"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
